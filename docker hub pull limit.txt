@@ -1,0 +1,17 @@
+在使用kind create cluster的时候遇到 docker hub rate limit：
+kind create cluster
+Creating cluster "kind" ...
+ ✗ Ensuring node image (kindest/node:v1.20.2) 🖼
+ERROR: failed to create cluster: failed to pull image "kindest/node:v1.20.2@sha256:8f7ea6e7642c0da54f04a7ee10431549c0257315b3a634f6ef2fecaaedb19bab": command "docker pull kindest/node:v1.20.2@sha256:8f7ea6e7642c0da54f04a7ee10431549c0257315b3a634f6ef2fecaaedb19bab" failed with error: exit status 1
+Command Output: Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit
+
+安装jq
+yum install epel-release
+yum update
+yum list jq
+yum install jq
+
+生成token，产生一个新的连接
+ TOKEN=$(curl "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | jq -r .token)
+TOKEN=$(curl --user 'xujianxu:Xjx1987_docker' "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | jq -r .token)
+curl --head -H "Authorization: Bearer $TOKEN" https://registry-1.docker.io/v2/ratelimitpreview/test/manifests/latest
