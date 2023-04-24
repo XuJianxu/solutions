@@ -3,8 +3,6 @@
 ## Installation
 
 ```bash
-$ git clone git@github.com:/pingcap/test-infra.git
-$ cd test-infra/tools/sql-crc32
 $ go install
 ```
 
